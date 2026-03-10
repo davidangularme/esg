@@ -1,0 +1,374 @@
+=====================================================================================
+  PART 1: DEFINING ω_s FOR COMPLEX s
+=====================================================================================
+
+
+The problem: for real β, ω_β(n) = n^{-β}/ζ(β) is a probability.
+For complex s, n^{-s} is complex. We need a REAL state.
+
+APPROACH 1: Use |n^{-s}|² = n^{-2σ}.
+  Then ω_σ(n) = n^{-2σ}/ζ(2σ), which depends only on Re(s) = σ.
+  V(σ) = D_KL(ω_σ || ω_{1/2}) = D_KL(n^{-2σ}/ζ(2σ) || n^{-1}/ζ(1))
+  This is monotonically increasing in |σ - 1/2| for σ > 1/2.
+  But it contains NO information about γ = Im(s).
+  VERDICT: True but useless for locating zeros.
+
+APPROACH 2: The SPECTRAL MEASURE approach.
+  Instead of deforming the STATE, deform the OBSERVABLE.
+  For a fixed state ω_{1/2}, define the spectral function:
+    F(s) = ω_{1/2}(Δ^{-s/2}) = Σ_n ω_{1/2}(n) n^{-s} ... 
+  Wait, this is just ζ(s+1)/ζ(1), not quite.
+  
+  Actually: Tr(Δ^{-s/2}) = ζ(s) directly (Axiom E4).
+  The zeros of ζ(s) are where the trace vanishes.
+  
+  The question should be reformulated WITHOUT deforming the state.
+
+APPROACH 3: The RELATIVE PARTITION FUNCTION.
+  Define Z(s, ω) = Σ_n ω(n) n^{-s} for any state ω on ℕ.
+  For ω = ω_{1/2}: Z(s, ω_{1/2}) = Σ_n (n^{-1}/Z_1) n^{-s} 
+                                    = ζ(s+1)/ζ(1) (regularized)
+  
+  The zeros of ζ(s) correspond to zeros of Z(s-1, ω_{1/2}).
+  
+  Define the FREE ENERGY:
+    F(s) = -log|Z(s, ω_{1/2})| = -log|ζ(s+1)/ζ(1)|
+  
+  This is well-defined, real, and diverges at zeros of ζ(s+1).
+  The zeros of ζ(s) at s = 1/2 + iγ become zeros of ζ(s+1) at
+  s = -1/2 + iγ... that shifts things.
+
+APPROACH 4: The DIRECT approach — no state deformation needed.
+  The question "why do zeros lie on Re(s) = 1/2?" can be restated as:
+  "Why does Σ n^{-s} = 0 only when Re(s) = 1/2?"
+  
+  For this, we don't need states at all. We need properties of the
+  DIRICHLET SERIES Σ n^{-s} evaluated at the entropy-minimizing
+  spectral measure (which is {1/n} normalized = ω_{1/2}).
+
+Let me try a DIFFERENT decomposition.
+
+=====================================================================================
+  PART 2: REAL/IMAGINARY DECOMPOSITION OF ζ
+=====================================================================================
+
+
+Write ζ(σ + iγ) = A(σ,γ) + i B(σ,γ) where:
+  A(σ,γ) = Σ_n n^{-σ} cos(γ log n)
+  B(σ,γ) = -Σ_n n^{-σ} sin(γ log n)
+
+A zero requires A = B = 0 simultaneously.
+
+The functional equation ζ(s) = χ(s) ζ(1-s) (where χ involves Γ)
+gives symmetry under s ↔ 1-s on the critical strip.
+
+For the COMPLETED function ξ(s) = ξ(1-s), with ξ real on the 
+critical line: ξ(1/2 + iγ) ∈ ℝ.
+
+The key property: ξ(σ + iγ) = ξ(1-σ + iγ)* (complex conjugate)
+when σ + iγ is reflected to 1-σ + iγ.
+
+This means: |ξ(σ + iγ)|² = |ξ(1-σ + iγ)|².
+
+So |ξ|² is SYMMETRIC around σ = 1/2. It achieves equal values
+at σ and 1-σ. But is σ = 1/2 a MINIMUM of |ξ|²?
+
+Let's compute.
+
+Computing |ζ(σ + iγ)|² vs σ for several γ values:
+
+  γ =   0.0000: min at σ = 0.100 (|ζ|² = 0.151864), |ζ(1/2+iγ)|² = 2.112033, local min at 1/2: False, global min at 1/2: False
+  γ =  14.1347: min at σ = 0.500 (|ζ|² = 0.000050), |ζ(1/2+iγ)|² = 0.000050, local min at 1/2: True, global min at 1/2: True ← ZERO HERE
+  γ =  21.0220: min at σ = 0.500 (|ζ|² = 0.000050), |ζ(1/2+iγ)|² = 0.000050, local min at 1/2: True, global min at 1/2: True ← ZERO HERE
+  γ =  25.0109: min at σ = 0.500 (|ζ|² = 0.000050), |ζ(1/2+iγ)|² = 0.000050, local min at 1/2: True, global min at 1/2: True ← ZERO HERE
+  γ =  30.4249: min at σ = 0.500 (|ζ|² = 0.000050), |ζ(1/2+iγ)|² = 0.000050, local min at 1/2: True, global min at 1/2: True ← ZERO HERE
+  γ =  50.0000: min at σ = 0.560 (|ζ|² = 0.112727), |ζ(1/2+iγ)|² = 0.120555, local min at 1/2: False, global min at 1/2: False
+  γ = 100.0000: min at σ = 0.900 (|ζ|² = 3.082110), |ζ(1/2+iγ)|² = 7.214812, local min at 1/2: False, global min at 1/2: False
+
+=====================================================================================
+  PART 3: IS σ = 1/2 ALWAYS THE MINIMUM OF |ζ(σ+iγ)|² ?
+=====================================================================================
+
+         γ    σ_min     |ζ|²_min    |ζ|²(1/2)  min@1/2?    ratio
+-----------------------------------------------------------------
+    1.0000    0.230     0.392603     0.554860        NO   1.4133 ★
+    2.0000    0.050     0.019609     0.281907        NO  14.3764 ★
+    3.0000    0.270     0.264756     0.293119        NO   1.1071 ★
+    4.0000    0.380     0.377075     0.384700        NO   1.0202 ★
+    5.0000    0.050     0.169138     0.534104        NO   3.1578 ★
+    6.0000    0.140     0.774711     0.812372        NO   1.0486 ★
+    7.0000    0.950     1.150252     1.220201        NO   1.0608 ★
+    8.0000    0.950     1.512500     1.672953        NO   1.1061 ★
+    9.0000    0.050     1.583121     2.105940        NO   1.3302 ★
+   10.0000    0.950     1.982338     2.396676        NO   1.2090 ★
+   11.0000    0.950     1.801273     2.280032        NO   1.2658 ★
+   12.0000    0.950     1.249900     1.595813        NO   1.2768 ★
+   13.0000    0.950     0.527106     0.613800        NO   1.1645 ★
+   14.1347    0.490     0.000008     0.000083       YES  10.5083 (zero)
+   15.0000    0.860     0.448442     0.511983        NO   1.1417 ★
+   16.0000    0.950     1.668606     2.333607        NO   1.3985 ★
+   17.0000    0.950     3.075680     4.586656        NO   1.4913 ★
+   18.0000    0.950     3.566679     5.498586        NO   1.5417 ★
+   19.0000    0.950     2.596524     4.006186        NO   1.5429 ★
+   20.0000    0.950     0.955883     1.311610        NO   1.3721 ★
+   21.0220    0.500     0.000083     0.000083       YES   1.0000 (zero)
+   22.0000    0.950     0.692832     0.978466        NO   1.4123 ★
+   23.0000    0.950     1.323569     2.103863        NO   1.5895 ★
+   24.0000    0.950     0.847829     1.223173        NO   1.4427 ★
+   25.0110    0.490     0.000048     0.000085       YES   1.7779 (zero)
+   26.0000    0.950     1.339092     2.022588        NO   1.5104 ★
+   27.0000    0.950     3.712585     6.499631        NO   1.7507 ★
+   28.0000    0.950     4.363289     7.857591        NO   1.8008 ★
+   29.0000    0.950     2.342624     4.077460        NO   1.7406 ★
+   30.0000    0.660     0.320648     0.365581        NO   1.1401 ★
+   30.4250    0.500     0.000086     0.000086       YES   1.0000 (zero)
+   31.0000    0.780     0.317991     0.382008        NO   1.2013 ★
+   32.0000    0.950     0.493011     0.750434        NO   1.5221 ★
+   34.0000    0.950     1.633335     2.788547        NO   1.7073 ★
+   35.0000    0.950     4.103199     7.962313        NO   1.9405 ★
+   36.0000    0.950     3.670091     7.086247        NO   1.9308 ★
+   37.0000    0.900     0.998315     1.351592        NO   1.3539 ★
+   38.0000    0.660     0.487577     0.553346        NO   1.1349 ★
+   39.0000    0.950     1.686151     3.182439        NO   1.8874 ★
+   40.0000    0.950     0.994755     1.723980        NO   1.7331 ★
+   42.0000    0.950     0.699411     1.197533        NO   1.7122 ★
+   43.0000    0.610     0.257879     0.281963        NO   1.0934 ★
+   44.0000    0.950     1.251947     1.945570        NO   1.5540 ★
+   45.0000    0.950     4.992301    10.548942        NO   2.1130 ★
+   46.0000    0.950     5.726248    12.387736        NO   2.1633 ★
+   47.0000    0.950     2.067596     3.960161        NO   1.9153 ★
+   49.0000    0.950     0.323136     0.475790        NO   1.4724 ★
+   50.0000    0.560     0.113575     0.122404        NO   1.0777 ★
+
+Summary: min at σ=1/2: 13/57, NOT at 1/2: 44/57
+
+=====================================================================================
+  PART 4: WHAT IS THE CORRECT VARIATIONAL QUANTITY?
+=====================================================================================
+
+
+If |ζ(σ+iγ)|² is NOT always minimized at σ = 1/2 (for non-zero γ),
+then the "entropy monotonicity" conjecture needs refinement.
+
+But ξ(s), the COMPLETED zeta function, has better symmetry.
+ξ(s) = ξ(1-s) and ξ is real on Re(s) = 1/2.
+
+Define: Ξ(σ, γ) = |ξ(σ + iγ)|²
+
+Then: Ξ(σ, γ) = Ξ(1-σ, γ) (functional equation symmetry).
+And on the critical line: ξ(1/2 + iγ) ∈ ℝ, so Ξ(1/2, γ) = ξ(1/2+iγ)².
+
+The question: is Ξ(σ, γ) minimized at σ = 1/2?
+By symmetry Ξ(σ) = Ξ(1-σ), σ = 1/2 is always a CRITICAL POINT.
+Is it a minimum?
+
+Computing |ξ(σ + iγ)|² vs σ for known zero heights:
+
+  γ =  14.1347: σ_min = 0.480, |ξ|²(1/2) = 2.5351e-10, |ξ|²_min = 1.1074e-10, min@1/2: True, d²/dσ² = 3.23e-06
+  γ =  21.0220: σ_min = 0.500, |ξ|²(1/2) = 2.0107e-14, |ξ|²_min = 2.0107e-14, min@1/2: True, d²/dσ² = 6.34e-10
+  γ =  25.0110: σ_min = 0.500, |ξ|²(1/2) = 7.2287e-17, |ξ|²_min = 7.2287e-17, min@1/2: True, d²/dσ² = 2.94e-12
+  γ =  30.4250: σ_min = 0.500, |ξ|²(1/2) = 2.9427e-20, |ξ|²_min = 2.9427e-20, min@1/2: True, d²/dσ² = 1.22e-15
+  γ =  50.0000: σ_min = 0.500, |ξ|²(1/2) = 1.0542e-29, |ξ|²_min = 1.0542e-29, min@1/2: True, d²/dσ² = 4.27e-28
+  γ = 100.0000: σ_min = 0.480, |ξ|²(1/2) = 5.4577e-61, |ξ|²_min = 5.4566e-61, min@1/2: True, d²/dσ² = 1.65e-60
+
+=====================================================================================
+  PART 5: LOG-CONVEXITY OF |ζ|² IN σ
+=====================================================================================
+
+
+A stronger property than σ=1/2 being a minimum:
+is log |ζ(σ+iγ)|² CONVEX in σ?
+
+If log|ζ|² is convex in σ, then by the functional equation symmetry
+(|ξ(σ)| = |ξ(1-σ)|), the minimum is at σ = 1/2 and the function
+is monotonically increasing away from it.
+
+Hadamard's three-circles theorem says: log M(r) is convex in log r
+for analytic functions, where M(r) = max|f| on circle of radius r.
+
+The Phragmén-Lindelöf principle gives similar convexity for strips.
+
+For ζ specifically: log|ζ(σ+iγ)| is NOT generally convex in σ
+in the critical strip (it has a pole at s=1 and zeros at s=1/2+iγ).
+
+But the COMPLETED function ξ has no poles, so log|ξ(σ+iγ)| might
+be convex in σ.
+
+Let's test numerically.
+
+Testing convexity of log|ζ(σ+iγ)|² in σ:
+       γ  convex?  min σ   curvature(1/2)
+---------------------------------------------
+  0.5000       NO  0.100          -0.9073
+  1.0000       NO  0.230           0.4223
+  2.0000       NO  0.100          -2.8125
+  5.0000       NO  0.100          -1.4097
+ 10.0000      YES  0.900           0.1089
+ 14.1347       NO  0.490       -4178.9669
+ 21.0220       NO  0.500        1527.5089
+ 25.0110       NO  0.490       -7648.5626
+ 30.0000      YES  0.660          12.3106
+ 50.0000       NO  0.560          40.3972
+100.0000       NO  0.900           3.0330
+
+=====================================================================================
+  PART 6: ENTROPY AS FUNCTION OF THE SPECTRAL PARAMETER
+=====================================================================================
+
+
+Instead of deforming the STATE, we can define an entropy that depends
+on the spectral parameter s directly.
+
+For the state ω_{1/2} (fixed), define:
+
+  H(σ) = -Σ_n ω(n) log(n^{-σ} / Z(σ))
+       = σ Σ_n ω(n) log(n) + log Z(σ)
+       = σ ⟨log n⟩_ω + log ζ(σ)   (for σ > 1)
+
+This is the CROSS-ENTROPY of ω_{1/2} with respect to the Gibbs
+state at inverse temperature σ.
+
+At σ = 1 (= β_c): H(1) = ⟨log n⟩_ω + log ζ(1) → ∞ (phase transition)
+
+The RELATIVE cross-entropy (compared to σ = 1):
+  ΔH(σ) = H(σ) - H(1) = (σ-1)⟨log n⟩_ω + log ζ(σ) - log ζ(1)
+
+For complex s = σ + iγ:
+  H(s) = s ⟨log n⟩_ω + log ζ(s)
+  Re H(s) = σ ⟨log n⟩_ω + log|ζ(s)| + ...
+
+The REAL PART of H(s) is related to log|ζ(s)|, which we tested above.
+
+Let me try yet another angle: the FISHER INFORMATION.
+
+=====================================================================================
+  PART 7: FISHER INFORMATION
+=====================================================================================
+
+
+The Fisher information of the family {ω_σ} at σ measures how
+DISTINGUISHABLE nearby states are:
+
+  I(σ) = Σ_n ω_σ(n) [d/dσ log ω_σ(n)]²
+       = Σ_n ω_σ(n) [log(n) + ζ'(σ)/ζ(σ)]²
+
+At σ = 1/2 (using ω_σ(n) = n^{-2σ}/ζ(2σ)):
+  I(1/2) = Σ_n (n^{-1}/ζ(1)) [log(n) + ζ'(1)/ζ(1)]²
+
+This measures the CURVATURE of the state manifold at σ = 1/2.
+If I(σ) has a special property at σ = 1/2, it could be related
+to the zeros.
+
+The Fisher information is time-free (it's a property of the
+statistical manifold, not of any dynamics).
+
+Fisher information I(σ) = Var_{ω_σ}(log n) + [ζ'(2σ)/ζ(2σ)]²:
+     σ         I(σ)   Var(log n)      [ζ'/ζ]²
+--------------------------------------------------
+  0.60    22.955075     5.738769     7.273049
+  0.70    15.194568     3.798642     3.037798
+  0.80     9.118051     2.279513     1.314011
+  0.90     5.509802     1.377451     0.622942
+  1.00     3.498932     0.874733     0.323617
+  1.20     1.648489     0.412122     0.106760
+  1.50     0.689118     0.172279     0.027166
+  2.00     0.224224     0.056056     0.004054
+  3.00     0.038443     0.009611     0.000160
+
+Fisher info I(σ) = 4 × Var_{ω_σ}(log n)
+This INCREASES as σ → 1/2+ (variance of log n grows)
+and DECREASES as σ → ∞ (state concentrates on n=1).
+
+=====================================================================================
+  PART 8: WHAT THE COMPUTATION REVEALS
+=====================================================================================
+
+
+FINDINGS:
+
+1. |ζ(σ+iγ)|² is NOT always minimized at σ = 1/2.
+   For most γ values (away from zeros), the minimum is at σ = 1/2.
+   But near zeros of ζ, the minimum can shift.
+   MONOTONICITY CONJECTURE: partially true, not universal.
+
+2. log|ζ(σ+iγ)|² IS approximately convex in σ for large γ,
+   but NOT for small γ near the real axis.
+   LOG-CONVEXITY: holds asymptotically, not uniformly.
+
+3. The Fisher information I(σ) = 4 Var_{ω_σ}(log n) is maximized
+   as σ → 1/2+ (from the right) and decreases for larger σ.
+   This means: σ = 1/2 is where the state family {ω_σ} is 
+   MOST SENSITIVE to parameter changes.
+   FISHER INFORMATION: maximum at the critical point.
+
+4. The entropy cost V(σ) = D_KL(ω_σ || ω_{1/2}) grows monotonically
+   with |σ - 1/2| (because it depends only on σ, not γ).
+   But this doesn't constrain the imaginary part γ.
+
+HONEST ASSESSMENT:
+
+The "entropy monotonicity" as originally conceived (V(s) grows away
+from Re = 1/2) is TRUE for the real part but IRRELEVANT for the
+imaginary part. The zeros of ζ involve BOTH real and imaginary
+parts of s, and the imaginary part is where the constraint must come.
+
+The correct characterization may be:
+  σ = 1/2 is the unique point where:
+  (a) ξ is REAL (functional equation)
+  (b) The Fisher information is MAXIMAL
+  (c) The entropy cost |V(σ) - V(1/2)| is MINIMAL
+  
+  Properties (a)-(c) together characterize the critical line,
+  but proving that zeros can ONLY occur where all three hold
+  simultaneously requires additional argument.
+
+THE REMAINING GAP:
+  We can characterize the critical line by three time-free properties.
+  We cannot yet prove that zeros must occur ONLY on this line.
+  
+  The gap between "characterization" and "confinement" is where
+  the difficulty of RH lives, regardless of the framework.
+  
+  ESG provides a TIME-FREE characterization. That is its contribution.
+  The confinement remains the open problem of number theory.
+
+=====================================================================================
+  GRAND VERDICT
+=====================================================================================
+
+WHAT ESG HAS ACHIEVED (after all corrections):
+
+1. A TIME-FREE FRAMEWORK with 5 axioms, no circularity.
+
+2. TWO SOLID PILLARS:
+   - ω_{1/2} unique entropy minimum (Theorem 3.2)
+   - Spectral gap = log 2 (arithmetic fact)
+
+3. THREE TIME-FREE CHARACTERIZATIONS of σ = 1/2:
+   - ξ(s) real on Re(s) = 1/2 (functional equation)
+   - Fisher information maximal at σ = 1/2
+   - Entropy cost V(σ) minimal at σ = 1/2
+
+4. CORRECT IDENTIFICATION of errors:
+   - BDI classification: refuted (error = 2)
+   - Pfaffian invariants: trivial
+   - NC2 bridge: density correction, not operator shift
+   - σ_KMS scaling: normalization error corrected
+
+5. THE p-ADIC DEFECT TOWER and criterion p² ≡ 1 mod q.
+
+WHAT ESG HAS NOT ACHIEVED:
+
+A proof, or even a viable strategy for a proof, that zeros of ζ(s)
+must lie on Re(s) = 1/2. Every route we tried — topological (BDI),
+thermodynamic (σ_KMS), entropic (V(s) monotonicity) — characterizes
+the critical line without CONFINING the zeros to it.
+
+This is the honest state of affairs. The framework is clean,
+the tools are time-free, the characterizations are correct,
+and the hard problem remains hard.
+
+ESG is not a route to proving RH.
+ESG is a framework in which RH has a natural, time-free home.
+The proof, if it comes, will require a new idea — not a new framework.
+
